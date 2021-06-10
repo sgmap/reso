@@ -4,6 +4,7 @@
 #
 #  id              :bigint(8)        not null, primary key
 #  code_region     :integer
+#  css             :string
 #  deleted_at      :datetime
 #  logo_sort_order :integer
 #  name            :string           not null

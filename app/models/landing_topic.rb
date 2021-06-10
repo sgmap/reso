@@ -10,14 +10,17 @@
 #  title               :string
 #  created_at          :datetime         not null
 #  updated_at          :datetime         not null
+#  iframe_id           :bigint(8)
 #  landing_id          :bigint(8)        not null
 #
 # Indexes
 #
+#  index_landing_topics_on_iframe_id   (iframe_id)
 #  index_landing_topics_on_landing_id  (landing_id)
 #
 # Foreign Keys
 #
+#  fk_rails_...  (iframe_id => iframes.id)
 #  fk_rails_...  (landing_id => landings.id)
 #
 

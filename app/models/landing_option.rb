@@ -17,15 +17,18 @@
 #  requires_requested_help_amount :boolean          default(FALSE), not null
 #  requires_siret                 :boolean          default(FALSE), not null
 #  slug                           :string           not null
+#  iframe_id                      :bigint(8)
 #  landing_id                     :bigint(8)
 #
 # Indexes
 #
+#  index_landing_options_on_iframe_id   (iframe_id)
 #  index_landing_options_on_landing_id  (landing_id)
 #  index_landing_options_on_slug        (slug) UNIQUE
 #
 # Foreign Keys
 #
+#  fk_rails_...  (iframe_id => iframes.id)
 #  fk_rails_...  (landing_id => landings.id)
 #
 

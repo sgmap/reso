@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_05_31_095237) do
+ActiveRecord::Schema.define(version: 2021_06_10_085536) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -226,6 +226,18 @@ ActiveRecord::Schema.define(version: 2021_05_31_095237) do
     t.index ["user_id"], name: "index_feedbacks_on_user_id"
   end
 
+  create_table "iframes", force: :cascade do |t|
+    t.string "name"
+    t.string "partner"
+    t.string "partner_website"
+    t.integer "format"
+    t.integer "css"
+    t.bigint "institution_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["institution_id"], name: "index_iframes_on_institution_id"
+  end
+
   create_table "institutions", force: :cascade do |t|
     t.string "name", null: false
     t.datetime "created_at", null: false
@@ -235,6 +247,7 @@ ActiveRecord::Schema.define(version: 2021_05_31_095237) do
     t.integer "logo_sort_order"
     t.datetime "deleted_at"
     t.integer "code_region"
+    t.string "css"
     t.index ["code_region"], name: "index_institutions_on_code_region"
     t.index ["deleted_at"], name: "index_institutions_on_deleted_at"
     t.index ["name"], name: "index_institutions_on_name", unique: true
@@ -270,6 +283,8 @@ ActiveRecord::Schema.define(version: 2021_05_31_095237) do
     t.string "form_description"
     t.string "description_explanation"
     t.string "meta_title"
+    t.bigint "iframe_id"
+    t.index ["iframe_id"], name: "index_landing_options_on_iframe_id"
     t.index ["landing_id"], name: "index_landing_options_on_landing_id"
     t.index ["slug"], name: "index_landing_options_on_slug", unique: true
   end
@@ -283,6 +298,8 @@ ActiveRecord::Schema.define(version: 2021_05_31_095237) do
     t.bigint "landing_id", null: false
     t.string "landing_option_slug"
     t.string "group_name"
+    t.bigint "iframe_id"
+    t.index ["iframe_id"], name: "index_landing_topics_on_iframe_id"
     t.index ["landing_id"], name: "index_landing_topics_on_landing_id"
   end
 
@@ -304,6 +321,8 @@ ActiveRecord::Schema.define(version: 2021_05_31_095237) do
     t.string "partner_url"
     t.boolean "emphasis", default: false
     t.string "main_logo"
+    t.bigint "iframe_id"
+    t.index ["iframe_id"], name: "index_landings_on_iframe_id"
     t.index ["institution_id"], name: "index_landings_on_institution_id"
     t.index ["slug"], name: "index_landings_on_slug", unique: true
   end
@@ -380,8 +399,10 @@ ActiveRecord::Schema.define(version: 2021_05_31_095237) do
     t.bigint "institution_id"
     t.integer "code_region"
     t.boolean "created_in_deployed_region", default: false
+    t.bigint "iframe_id"
     t.index ["code_region"], name: "index_solicitations_on_code_region"
     t.index ["email"], name: "index_solicitations_on_email"
+    t.index ["iframe_id"], name: "index_solicitations_on_iframe_id"
     t.index ["institution_id"], name: "index_solicitations_on_institution_id"
     t.index ["landing_slug"], name: "index_solicitations_on_landing_slug"
   end
@@ -483,8 +504,11 @@ ActiveRecord::Schema.define(version: 2021_05_31_095237) do
   add_foreign_key "feedbacks", "users"
   add_foreign_key "institutions_subjects", "institutions"
   add_foreign_key "institutions_subjects", "subjects"
+  add_foreign_key "landing_options", "iframes"
   add_foreign_key "landing_options", "landings"
+  add_foreign_key "landing_topics", "iframes"
   add_foreign_key "landing_topics", "landings"
+  add_foreign_key "landings", "iframes"
   add_foreign_key "landings", "institutions"
   add_foreign_key "matches", "experts"
   add_foreign_key "matches", "needs"
@@ -493,6 +517,7 @@ ActiveRecord::Schema.define(version: 2021_05_31_095237) do
   add_foreign_key "needs", "subjects"
   add_foreign_key "reminders_actions", "needs"
   add_foreign_key "searches", "users"
+  add_foreign_key "solicitations", "iframes"
   add_foreign_key "solicitations", "institutions"
   add_foreign_key "subjects", "themes"
   add_foreign_key "users", "antennes"

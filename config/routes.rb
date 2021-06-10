@@ -53,8 +53,21 @@ Rails.application.routes.draw do
   # Pages
   # # Only these routes are available in iframes and only this controller includes IframePrefix
   scope path: "(:iframe_prefix)", iframe_prefix: /e?/, defaults: { iframe_prefix: nil } do
-    root controller: :landings, action: :index
+    # root controller: :landings, action: :index
     resources :landings, param: :slug, only: %i[show], path: 'aide-entreprises' do
+      member do
+        get 'demande(/:option_slug)', action: :new_solicitation, as: :new_solicitation
+        # as the form to create solicitations is on the landings show page,
+        # we’re using the same path the show landings and to view solicitations.
+        post :create_solicitation, path: ''
+      end
+    end
+    resources :iframes, only: %i[show], path: 'aides-entreprises'
+  end
+
+  scope path: ":iframe_prefix/:iframe_id", iframe_prefix: /i?/ do
+    root controller: :iframes, action: :index
+    resources :iframes, param: :slug, only: %i[show], path: 'aide-entreprises' do
       member do
         get 'demande(/:option_slug)', action: :new_solicitation, as: :new_solicitation
         # as the form to create solicitations is on the landings show page,

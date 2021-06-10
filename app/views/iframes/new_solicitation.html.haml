@@ -1,0 +1,18 @@
+:ruby
+  landing_option = @solicitation.landing_option
+
+- if @solicitation.persisted?
+  %section.section.section-grey#section-thankyou
+    .container.container-medium
+      = render 'new_solicitation_thank_you', solicitation: @solicitation
+      - if @landing.logos.present?
+        .logo-list
+          = region_image(session[:region_code])
+          - @landing.logos.split.each do |logo_slug|
+            = institution_image(logo_slug)
+
+- if @solicitation.new_record?
+  %section.section.section-grey.landing#section-formulaire
+    .container
+      .solicitation-form{ class: "#{'in-iframe' if in_iframe?}" }
+

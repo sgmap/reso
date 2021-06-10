@@ -31,6 +31,7 @@ module IframePrefix
     clean_params = super
     # Note: :iframe_prefix is the name of the optional parameter defined in routes.rb.
     @iframe_prefix ||= clean_params.delete(:iframe_prefix)
+    @iframe_id ||= clean_params[:iframe_id]
     # Implementation Note: clean_params actually points to an instance variable of a superclass, which we’re modifying.
     # It means that on the second call, clean_params doesn’t contain :iframe_prefix anymore.
     clean_params
@@ -83,7 +84,7 @@ module IframePrefix
       klass = (controller.camelize + 'Controller').constantize
       return raw_url unless klass <= IframePrefix
 
-      url.path = "/#{@iframe_prefix}" + url.path
+      url.path = "/#{@iframe_prefix}/#{@iframe_id}" + url.path
       url.to_s
     end
   end

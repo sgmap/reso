@@ -19,15 +19,18 @@
 #  title                        :string
 #  created_at                   :datetime         not null
 #  updated_at                   :datetime         not null
+#  iframe_id                    :bigint(8)
 #  institution_id               :bigint(8)
 #
 # Indexes
 #
+#  index_landings_on_iframe_id       (iframe_id)
 #  index_landings_on_institution_id  (institution_id)
 #  index_landings_on_slug            (slug) UNIQUE
 #
 # Foreign Keys
 #
+#  fk_rails_...  (iframe_id => iframes.id)
 #  fk_rails_...  (institution_id => institutions.id)
 #
 

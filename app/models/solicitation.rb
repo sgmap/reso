@@ -19,17 +19,20 @@
 #  status                           :integer          default("in_progress")
 #  created_at                       :datetime         not null
 #  updated_at                       :datetime         not null
+#  iframe_id                        :bigint(8)
 #  institution_id                   :bigint(8)
 #
 # Indexes
 #
 #  index_solicitations_on_code_region     (code_region)
 #  index_solicitations_on_email           (email)
+#  index_solicitations_on_iframe_id       (iframe_id)
 #  index_solicitations_on_institution_id  (institution_id)
 #  index_solicitations_on_landing_slug    (landing_slug)
 #
 # Foreign Keys
 #
+#  fk_rails_...  (iframe_id => iframes.id)
 #  fk_rails_...  (institution_id => institutions.id)
 #
 
